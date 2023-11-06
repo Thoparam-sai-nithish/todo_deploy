@@ -1,15 +1,19 @@
+require("dotenv").config();
 const exp = require('express')
 const app = exp()
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-app.listen(3500,()=>console.log("Server is runnnign on port 3500"))
+//create server
+const PORT = process.env.PORT || 3500;
+app.listen(PORT,()=>console.log("Server is runnnign on port 3500"))
+    
 //connecting to database
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'password',
+    password: 'root',
     database: 'tododatabase'
 });
 //checking if connection is successful or not  
@@ -34,7 +38,7 @@ app.post('/todo/post',(req,res)=>{
     const taskName = req.body.taskName;
     const taskPriority = req.body.taskPriority;
     const taskStatus = req.body.taskStatus;
-
+    
     const sqlInsert = "INSERT INTO tasksdata (id, taskName,taskPriority,taskStatus) VALUES (?,?,?,?)";
     connection.query(sqlInsert,[id,taskName,taskPriority,taskStatus] , (err,result)=>{
         err&&console.log("error is :",err)
@@ -70,3 +74,10 @@ app.put('/todo/put/:id', (req,res)=>{
         res.send("Successfuly updates")
     })
 } )
+
+//Build Web Packserver
+const path = require('path');
+app.use(exp.static(path.join(__dirname, 'build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});

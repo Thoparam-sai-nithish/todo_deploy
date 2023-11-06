@@ -1,6 +1,6 @@
 import './NavigationBar.css'
 import React from 'react'
-import {FiSearch} from 'react-icons/fi'
+// import {FiSearch} from 'react-icons/fi'
 import {AiFillHome} from 'react-icons/ai'
 import {RiTodoFill} from 'react-icons/ri'
 import {TbUrgent} from 'react-icons/tb'
