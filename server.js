@@ -4,6 +4,7 @@ const app = exp()
 const mClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const expressAsyncHandler = require("express-async-handler");
 
 //create server
 const PORT = process.env.PORT || 3500;
@@ -24,6 +25,7 @@ client
     const tasksCollection = TodoDb.collection('tasks');
     app.set('tasksCollection',tasksCollection);
     console.log('Database connection Success!');
+    console.log('tasksCollection:', app.get('tasksCollection'));
 })
 .catch((err)=>{
     console.log('error in Connecting to database! : ',err) 
@@ -37,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Routes
 //Post request (/todoapi/post)
-app.post('/todo/post',async(req,res)=>{
+app.post('/todo/post',expressAsyncHandler(async(req,res)=>{
     const tasksCollection = req.app.get('tasksCollection')
     // Find the highest existing id
     const highestIdTask = await tasksCollection.findOne({}, { sort: { id: -1 } });
@@ -60,26 +62,26 @@ app.post('/todo/post',async(req,res)=>{
           res.send("Successfully submitted!");
         }
       });
-}) 
+})) 
 //Get request (/todo/get)
-app.get('/todo/get', async(req, res) => {
+app.get('/todo/get', expressAsyncHandler(async(req, res) => {
     // Assuming your MongoDB collection is named tasksDataCollection
     const tasksCollection = req.app.get('tasksCollection');
     const data = await tasksCollection.find().toArray();
     res.status(200).send(data)
-});
+}));
 
-app.delete('/todo/delete/:id', async(req, res) => {
+app.delete('/todo/delete/:id', expressAsyncHandler(async(req, res) => {
     const tasksCollection = req.app.get('tasksCollection');
     const tId = +(req.params.id);
 
     // Assuming your MongoDB collection is named tasksDataCollection
    const result =await tasksCollection.deleteOne({id:tId})
    res.status(200).send("Ok");
-});
+}));
 
 //UPDATE request (/todo/update)
-app.put('/todo/put/:id', async(req, res) => {
+app.put('/todo/put/:id', expressAsyncHandler(async(req, res) => {
     const tasksCollection = req.app.get('tasksCollection');
     const tId = +(req.params.id);
     const tStatus = req.body.taskStatus;
@@ -88,7 +90,7 @@ app.put('/todo/put/:id', async(req, res) => {
     // Assuming your MongoDB collection is named tasksDataCollection
     const result = await tasksCollection.updateOne({id:tId},{$set:{taskStatus:tStatus}})
     res.status(200).send(result)
-});
+}));
 
 
 //Build Web Packserver
