@@ -30,8 +30,8 @@ client
 
 //MiddleWares
 app.use(exp.json());
-app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(bodyParser.json());
 
 
 //Routes
