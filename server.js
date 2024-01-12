@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3500;
 app.listen(PORT,()=>console.log("Server is runnnign on port 3500"))
 
 // ONLINE DB
-const MONGODB_URI = `mongodb+srv://Thoparam-Sai-nithish:nithish2003%40github@todo.etij0ji.mongodb.net/`;
+const MONGODB_URI = `mongodb+srv://Thoparam-Sai-nithish:nithish2003%40github@todo.etij0ji.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient (MONGODB_URI);
 
 // Connect to DB
