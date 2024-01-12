@@ -8,9 +8,18 @@ const cors = require('cors')
 //create server
 const PORT = process.env.PORT || 3500;
 app.listen(PORT,()=>console.log("Server is runnnign on port 3500"))
+
+// ONLINE DB
+const MONGODB_URI = `mongodb+srv://Thoparam-Sai-nithish:nithish2003%40github@todo.etij0ji.mongodb.net/`;
+const client = new mClient(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 // Connect to DB
-mClient.connect('mongodb://127.0.0.1:27017')
-.then(dbServerRef=>{
+client
+.connect()
+.then(async(dbServerRef)=>{
     const TodoDb = dbServerRef.db('todo');
     const tasksCollection = TodoDb.collection('tasks');
     app.set('tasksCollection',tasksCollection);
