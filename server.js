@@ -1,7 +1,7 @@
 require("dotenv").config();
 const exp = require('express')
 const app = exp()
-const mClient = require('mongodb').MongoClient
+const {MongoClient } = require('mongodb')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const expressAsyncHandler = require("express-async-handler");
@@ -12,7 +12,7 @@ app.listen(PORT,()=>console.log("Server is runnnign on port 3500"))
 
 // ONLINE DB
 const MONGODB_URI = `mongodb+srv://Thoparam-Sai-nithish:nithish2003%40github@todo.etij0ji.mongodb.net/`;
-const client = new mClient(MONGODB_URI, {
+const client = new MongoClient (MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

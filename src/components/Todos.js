@@ -15,7 +15,7 @@ function Todos() {
   const onSubmit = (data)=>{
     data={...data,taskStatus:"incomplete"}
     console.log(data);
-    axios.post('https://todo-5did.onrender.com/todo/post',data)
+    axios.post('http://localhost:3500/todo/post',data)
     .then(response=>console.log(response))
     .catch(err=>console.log(err))
     setC(c+1);
@@ -26,7 +26,7 @@ function Todos() {
   let [tasks,setTasks] = useState([])
 
   useEffect(()=>{
-    axios.get('https://todo-5did.onrender.com/todo/get')
+    axios.get('http://localhost:3500/todo/get')
     .then(res=>{
       setTasks(res.data)
       console.log(tasks)
@@ -39,7 +39,7 @@ function Todos() {
     console.log(id);
     let oldTask;
     //fetch task details
-    axios.get('https://todo-5did.onrender.com/todo/get')
+    axios.get('http://localhost:3500/todo/get')
     .then(res=>{
       let tasks=res.data;
       console.log(tasks)
@@ -50,7 +50,7 @@ function Todos() {
       console.log(oldTask)
       
       //update the object
-      axios.put(`https://todo-5did.onrender.com/todo/put/${id}`,oldTask)
+      axios.put(`http://localhost:3500/todo/put/${id}`,oldTask)
       .then(res => {
         console.log(res.data)
         setC(c + 1);
@@ -62,7 +62,7 @@ function Todos() {
   }
   //DELETE Task
   let taskDeleted =(id)=>{
-    axios.delete(`https://todo-5did.onrender.com/todo/delete/${id}`)
+    axios.delete(`http://localhost:3500/todo/delete/${id}`)
     .then((response) => {
       console.log(response);
       console.log("Task deleted Succesfully")

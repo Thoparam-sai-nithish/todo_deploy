@@ -9,7 +9,7 @@ function High() {
   let [tasks,setTasks] = useState([])
 
   useEffect(()=>{
-    axios.get('https://todo-5did.onrender.com/todo/get')
+    axios.get('http://localhost:3500/todo/get')
     .then(res=>{
       setTasks(res.data)
       console.log(tasks)
@@ -22,7 +22,7 @@ function High() {
     console.log(id);
     let oldTask;
     //fetch task details
-    axios.get('https://todo-5did.onrender.com/todo/get')
+    axios.get('http://localhost:3500/todo/get')
     .then(res=>{
       let tasks=res.data;
       console.log(tasks)
@@ -33,7 +33,7 @@ function High() {
       console.log(oldTask)
       
       //update the object
-      axios.put(`https://todo-5did.onrender.com/todo/put/${id}`,oldTask)
+      axios.put(`http://localhost:3500/todo/put/${id}`,oldTask)
       .then(res => {
         console.log(res.data)
         setC(c + 1);
@@ -45,7 +45,7 @@ function High() {
   }
   //DELETE Task
   let taskDeleted =(id)=>{
-    axios.delete(`https://todo-5did.onrender.com/todo/delete/${id}`)
+    axios.delete(`http://localhost:3500/todo/delete/${id}`)
     .then((response) => {
       console.log(response);
       console.log("Task deleted Succesfully")
