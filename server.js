@@ -12,10 +12,7 @@ app.listen(PORT,()=>console.log("Server is runnnign on port 3500"))
 
 // ONLINE DB
 const MONGODB_URI = `mongodb+srv://Thoparam-Sai-nithish:nithish2003%40github@todo.etij0ji.mongodb.net/`;
-const client = new MongoClient (MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const client = new MongoClient (MONGODB_URI);
 
 // Connect to DB
 client
@@ -25,7 +22,7 @@ client
     const tasksCollection = TodoDb.collection('tasks');
     app.set('tasksCollection',tasksCollection);
     console.log('Database connection Success!');
-    console.log('tasksCollection:', app.get('tasksCollection'));
+   
 })
 .catch((err)=>{
     console.log('error in Connecting to database! : ',err) 
