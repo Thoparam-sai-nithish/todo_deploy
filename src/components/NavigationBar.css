@@ -1,0 +1,31 @@
+.navStyles , ul{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+.searchDiv{
+    height: 60px;
+    width: fit-content;
+}
+.searchDiv input{
+        width: auto;
+        box-shadow: -2px 2px 2px rgb(117, 117, 117);
+}
+.searchDiv form{
+    width: fit-content;
+    padding: 5px;
+}
+.navItemStyles{
+    padding: 5px;
+}
+
+.navItemStyles:hover{
+    border-radius: 5px;
+    background-color: black;
+    color: green;
+}
+
+.nav-item:active{
+    background-color: rgba(238, 130, 238, 0.514);
+    color: blue;
+}

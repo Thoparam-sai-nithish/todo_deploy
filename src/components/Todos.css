@@ -1,0 +1,40 @@
+.todosStyles{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg');
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.tasks{
+    margin: 0 ;
+    padding: 0; 
+    overflow: scroll;
+}
+.incomplete{
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+}
+.AddTodoForm{
+    margin: 0;
+    padding: 0px;
+    width: 60%;
+}
+.completed{
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+}
+.completed h2{
+    color: chartreuse;
+}
+tr{
+    margin:0px, 5px,0px,5px ;
+}
+::-webkit-scrollbar {
+    height: 0px;
+    background-color: transperent;
+  }
