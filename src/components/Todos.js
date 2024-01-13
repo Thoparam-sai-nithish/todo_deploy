@@ -18,7 +18,7 @@ function Todos() {
     data = { ...data, taskStatus: "incomplete" };
     console.log(data);
     axios
-      .post("http://localhost:3500/todo/post", data)
+      .post("https://deply-todo.onrender.com/todo/post", data)
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
     setC(c + 1);
@@ -29,7 +29,7 @@ function Todos() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3500/todo/get")
+      .get("https://deply-todo.onrender.com/todo/get")
       .then((res) => {
         setTasks(res.data);
         console.log(tasks);
@@ -43,7 +43,7 @@ function Todos() {
     let oldTask;
     //fetch task details
     axios
-      .get("http://localhost:3500/todo/get")
+      .get("https://deply-todo.onrender.com/todo/get")
       .then((res) => {
         let tasks = res.data;
         console.log(tasks);
@@ -55,7 +55,7 @@ function Todos() {
 
         //update the object
         axios
-          .put(`http://localhost:3500/todo/put/${id}`, oldTask)
+          .put(`https://deply-todo.onrender.com/todo/put/${id}`, oldTask)
           .then((res) => {
             console.log(res.data);
             setC(c + 1);
@@ -69,7 +69,7 @@ function Todos() {
   //DELETE Task
   let taskDeleted = (id) => {
     axios
-      .delete(`http://localhost:3500/todo/delete/${id}`)
+      .delete(`https://deply-todo.onrender.com/todo/delete/${id}`)
       .then((response) => {
         console.log(response);
         console.log("Task deleted Succesfully");
