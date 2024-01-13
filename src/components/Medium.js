@@ -9,7 +9,7 @@ function Medium() {
 
   useEffect(() => {
     axios
-      .get("https://todo-5did.onrender.com/todo/get")
+      .get("http://localhost:3500/todo/get")
       .then((res) => {
         setTasks(res.data);
         console.log(tasks);
@@ -23,7 +23,7 @@ function Medium() {
     let oldTask;
     //fetch task details
     axios
-      .get("https://todo-5did.onrender.com/todo/get")
+      .get("http://localhost:3500/todo/get")
       .then((res) => {
         let tasks = res.data;
         console.log(tasks);
@@ -35,7 +35,7 @@ function Medium() {
 
         //update the object
         axios
-          .put(`https://todo-5did.onrender.com/todo/put/${id}`, oldTask)
+          .put(`http://localhost:3500/todo/put/${id}`, oldTask)
           .then((res) => {
             console.log(res.data);
             setC(c + 1);
@@ -49,7 +49,7 @@ function Medium() {
   //DELETE Task
   let taskDeleted = (id) => {
     axios
-      .delete(`https://todo-5did.onrender.com/todo/delete/${id}`)
+      .delete(`http://localhost:3500/todo/delete/${id}`)
       .then((response) => {
         console.log(response);
         console.log("Task deleted Succesfully");
