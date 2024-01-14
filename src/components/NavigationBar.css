@@ -2,13 +2,14 @@
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
 }
 .searchDiv{
     height: 60px;
     width: fit-content;
 }
 .searchDiv input{
-        width: auto;
+        width: 100;
         box-shadow: -2px 2px 2px rgb(117, 117, 117);
 }
 .searchDiv form{

@@ -15,13 +15,13 @@ function Todos() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    data = { ...data, taskStatus: "incomplete" };
+    data = { ...data, taskStatus: "incomplete",userEmail:localStorage.getItem('userEmail') };
     console.log(data);
     axios
-      .post("https://deply-todo.onrender.com/todo/post", data)
-      .then((response) => console.log(response))
+      .post("https://todo-5did.onrender.com/todo/post", data)
+      .then((response) => {console.log(response);})
       .catch((err) => console.log(err));
-    setC(c + 1);
+      setTimeout(()=>setC(c + 1),100)
   };
 
   //Fetch details
@@ -29,7 +29,7 @@ function Todos() {
 
   useEffect(() => {
     axios
-      .get("https://deply-todo.onrender.com/todo/get")
+      .post("https://todo-5did.onrender.com/todo/get",{userEmail:localStorage.getItem('userEmail')})
       .then((res) => {
         setTasks(res.data);
         console.log(tasks);
@@ -43,7 +43,7 @@ function Todos() {
     let oldTask;
     //fetch task details
     axios
-      .get("https://deply-todo.onrender.com/todo/get")
+      .post("https://todo-5did.onrender.com/todo/get",{userEmail:localStorage.getItem('userEmail')})
       .then((res) => {
         let tasks = res.data;
         console.log(tasks);
@@ -51,11 +51,11 @@ function Todos() {
         if (oldTask.taskStatus === "incomplete")
           oldTask = { ...oldTask, taskStatus: "completed" };
         else oldTask = { ...oldTask, taskStatus: "incomplete" };
-        console.log(oldTask);
+        console.log("Modified task is :",oldTask);
 
         //update the object
         axios
-          .put(`https://deply-todo.onrender.com/todo/put/${id}`, oldTask)
+          .put(`https://todo-5did.onrender.com/todo/put/${id}`, oldTask)
           .then((res) => {
             console.log(res.data);
             setC(c + 1);
@@ -69,7 +69,7 @@ function Todos() {
   //DELETE Task
   let taskDeleted = (id) => {
     axios
-      .delete(`https://deply-todo.onrender.com/todo/delete/${id}`)
+      .post(`https://todo-5did.onrender.com/todo/delete/${id}`,{userEmail:localStorage.getItem('userEmail')})
       .then((response) => {
         console.log(response);
         console.log("Task deleted Succesfully");
@@ -81,7 +81,7 @@ function Todos() {
   };
 
   return (
-    <div className="border border-2 p-2 border-success bg-dark rounded-4 todosStyles">
+    <div className="border border-2 p-2 border-success bg-dark todosStyles">
       {/* Add New Task FORM*/}
       <form
         className="addTodoForm py-3 mx-3 mt-3 mb-5 p-2 text-white rounded-3 row border row"

@@ -1,18 +1,61 @@
-import React from 'react'
-import NavigationBar from './NavigationBar'
+import React, { useEffect, useState } from 'react'
 import './RootLayout.css'
-import { Outlet } from 'react-router-dom'
+import NavigationBar from './NavigationBar'
+import TopNavigationBar from './TopNavigationBar'
+import { Outlet, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+
+
 function RootLayout() {
+  const [isUserLogedIn,setIsUserLoggedIn]=useState(false);
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const token = localStorage.getItem('todoAppJWToken');
+    if(!token) {
+      setIsUserLoggedIn(false);
+      navigate('/'); 
+    }
+    else{
+      axios
+        .post('https://todo-5did.onrender.com/accounts/getUserDetails',{token:token})
+        .then((response)=>{
+          if (response.data.message === 'ok'){
+            navigate('/Home');
+            setIsUserLoggedIn(true);
+          }
+          else {
+            setIsUserLoggedIn(false);
+            navigate('/');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsUserLoggedIn(false);
+        }); 
+
+    }
+  },[localStorage.getItem('todoAppJWToken')])
+
+
+
+
   return (
-    <div className='rootStyles row ' >
+    <div className='rootStyles'>
+      
+      <TopNavigationBar/>
 
-      <div className='navigationStyles col-sm-3 '>
-        <NavigationBar/>
-      </div>
-      <div className='outletStyles col-sm-9 p-0 border  rounded-4'>
-        <Outlet/>
-      </div>
-
+      {isUserLogedIn?
+        <div className='row ms-0 p-0 w-100 h-100'>
+          <div className='col-md-3 p-0 m-0 h-100'>
+            <NavigationBar/>
+          </div>
+          <div className='col-md-9 p-0 m-0 h-100'>
+            <Outlet/>
+          </div>  
+        </div> :
+        <div><Outlet/></div>
+      }
     </div>
   )
 }

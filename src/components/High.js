@@ -10,7 +10,7 @@ function High() {
 
   useEffect(() => {
     axios
-      .get("https://deply-todo.onrender.com/todo/get")
+      .post("https://todo-5did.onrender.com/todo/get",{userEmail:localStorage.getItem('userEmail')})
       .then((res) => {
         setTasks(res.data);
         console.log(tasks);
@@ -18,51 +18,50 @@ function High() {
       .catch((err) => console.log(err));
   }, [c]);
 
-  //Task Completed
-  let taskCheckbox = (id) => {
-    console.log(id);
-    let oldTask;
-    //fetch task details
-    axios
-      .get("https://deply-todo.onrender.com/todo/get")
-      .then((res) => {
-        let tasks = res.data;
-        console.log(tasks);
-        oldTask = tasks.find((obj) => obj.id === id);
-        if (oldTask.taskStatus === "incomplete")
-          oldTask = { ...oldTask, taskStatus: "completed" };
-        else oldTask = { ...oldTask, taskStatus: "incomplete" };
-        console.log(oldTask);
+//Task Completed
+let taskCheckbox = (id) => {
+  console.log(id);
+  let oldTask;
+  //fetch task details
+  axios
+    .post("https://todo-5did.onrender.com/todo/get",{userEmail:localStorage.getItem('userEmail')})
+    .then((res) => {
+      let tasks = res.data;
+      console.log(tasks);
+      oldTask = tasks.find((obj) => obj.id === id);
+      if (oldTask.taskStatus === "incomplete")
+        oldTask = { ...oldTask, taskStatus: "completed" };
+      else oldTask = { ...oldTask, taskStatus: "incomplete" };
+      console.log("Modified task is :",oldTask);
 
-        //update the object
-        axios
-          .put(`https://deply-todo.onrender.com/todo/put/${id}`, oldTask)
-          .then((res) => {
-            console.log(res.data);
-            setC(c + 1);
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log("err at taskCheckbox", err);
-      });
-  };
-  //DELETE Task
-  let taskDeleted = (id) => {
-    axios
-      .delete(`https://deply-todo.onrender.com/todo/delete/${id}`)
-      .then((response) => {
-        console.log(response);
-        console.log("Task deleted Succesfully");
-        setC(c + 1); // re-render component after successful deletion
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+      //update the object
+      axios
+        .put(`https://todo-5did.onrender.com/todo/put/${id}`, oldTask)
+        .then((res) => {
+          console.log(res.data);
+          setC(c + 1);
+        })
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => {
+      console.log("err at taskCheckbox", err);
+    });
+};
+//DELETE Task
+let taskDeleted = (id) => {
+  axios
+    .post(`https://todo-5did.onrender.com/todo/delete/${id}`,{userEmail:localStorage.getItem('userEmail')})
+    .then((response) => {
+      console.log(response);
+      console.log("Task deleted Succesfully");
+      setC(c + 1); // re-render component after successful deletion
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
   return (
-    <div className="border border-2 p- border-success rounded-4 todosStyles highStyles bg-dark    ">
+    <div className="border border-2 p- border-success todosStyles highStyles bg-dark    ">
       <h1 className="text-white bg-secondary bg-opacity-50 rounded-4 p-2 text-center mb-5">
         {" "}
         High Priority Tasks

@@ -8,6 +8,11 @@ import High from './components/High'
 import Medium from './components/Medium'
 import Low from './components/Low'
 import Personal from './components/Personal'
+import Login from './components/Login'
+import CreateAccount from './components/CreateAccount';
+import UpdatePassword from './components/UpdatePassword';
+import VerifyForgetPasswordOtp from './components/VerifyForgetPasswordOtp';
+import ForgetPassword from './components/ForgetPassword'
 function App() {
 
 const router = createBrowserRouter([
@@ -15,12 +20,33 @@ const router = createBrowserRouter([
     path:'/',
     element:<RootLayout/>,
     children:[
+      
+      {
+        path:'/',
+        element:<Login/>
+      },
+      {
+        path:'/CreateAccount',
+        element:<CreateAccount/>
+      },
+      {
+        path:'/UpdatePassword',
+        element:<UpdatePassword/>
+      },
+      {
+        path:'/VerifyForgetPasswordOtp',
+        element:<VerifyForgetPasswordOtp/>
+      },
+      {
+        path:'/ForgetPassword',
+        element:<ForgetPassword/>
+      },
       {
         path:'/Home',
         element:<Home/>
       },
       {
-        path:'/',
+        path:'/Todos',
         element:<Todos/>
       },
       {

@@ -24,7 +24,11 @@ client
 .then(async(dbServerRef)=>{
     const TodoDb = await dbServerRef.db('todo');
     const tasksCollection = await TodoDb.collection('tasks');
+    const accountsCollection = await TodoDb.collection('accounts');
+    const securityKeysCollection = await TodoDb.collection('securityKeys')
     await app.set('tasksCollection',tasksCollection);
+    await app.set('accountsCollection',accountsCollection);
+    await app.set('securityKeysCollection',securityKeysCollection);
     console.log('Database connection Success!'); 
 })
 .catch((err)=>{
@@ -38,11 +42,13 @@ app.use(bodyParser.json());
 
 
 //Routes
+const accountsApp = require('./APIs/AccountsApi')
+app.use('/accounts',accountsApp)
 //Post request (/todoapi/post)
 app.post('/todo/post',expressAsyncHandler(async(req,res)=>{
     const tasksCollection = req.app.get('tasksCollection')
     // Find the highest existing id
-    const highestIdTask = await tasksCollection.findOne({}, { sort: { id: -1 } });
+    const highestIdTask = await tasksCollection.findOne({userEmail:req.body.userEmail}, { sort: { id: -1 } });
     // Determine the new id
     const newId = highestIdTask ? highestIdTask.id + 1 : 1;
 
@@ -50,7 +56,8 @@ app.post('/todo/post',expressAsyncHandler(async(req,res)=>{
         id :newId,
         taskName : req.body.taskName,
         taskPriority : req.body.taskPriority,
-        taskStatus : req.body.taskStatus
+        taskStatus : req.body.taskStatus,
+        userEmail:req.body.userEmail
     }
 
     tasksCollection.insertOne(taskData, (err, result) => {
@@ -64,19 +71,21 @@ app.post('/todo/post',expressAsyncHandler(async(req,res)=>{
       });
 })) 
 //Get request (/todo/get)
-app.get('/todo/get', expressAsyncHandler(async(req, res) => {
+app.post('/todo/get', expressAsyncHandler(async(req, res) => {
     // Assuming your MongoDB collection is named tasksDataCollection
+    const userData = req.body
+    // console.log('user Data (todo/get) : ', userData)
     const tasksCollection = req.app.get('tasksCollection');
-    const data = await tasksCollection.find().toArray();
+    const data = await tasksCollection.find({userEmail:userData.userEmail}).toArray();
     res.status(200).send(data)
 }));
 
-app.delete('/todo/delete/:id', expressAsyncHandler(async(req, res) => {
+app.post('/todo/delete/:id', expressAsyncHandler(async(req, res) => {
     const tasksCollection = req.app.get('tasksCollection');
     const tId = +(req.params.id);
 
     // Assuming your MongoDB collection is named tasksDataCollection
-   const result =await tasksCollection.deleteOne({id:tId})
+   const result =await tasksCollection.deleteOne({id:tId, userEmail:req.body.userEmail})
    res.status(200).send("Ok");
 }));
 
@@ -85,10 +94,11 @@ app.put('/todo/put/:id', expressAsyncHandler(async(req, res) => {
     const tasksCollection = req.app.get('tasksCollection');
     const tId = +(req.params.id);
     const tStatus = req.body.taskStatus;
-    console.log(tId);
+    const tUserEmail = req.body.userEmail;
+    // console.log(tId);
     // console.log(tStatus)
     // Assuming your MongoDB collection is named tasksDataCollection
-    const result = await tasksCollection.updateOne({id:tId},{$set:{taskStatus:tStatus}})
+    const result = await tasksCollection.updateOne({id:tId, userEmail: tUserEmail },{$set:{taskStatus:tStatus}})
     res.status(200).send(result)
 }));
 
